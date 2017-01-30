@@ -34,6 +34,17 @@ class Toolbox(object):
     def shoot(self, p):
         return SoccerAction(Vector2D(), p-self.my_position())
         
-#    def dribbler(self, p):
-#        if ball_position() < 130:
-#            return shoot(1,0)
+#    def dribbler(self,id_team, id_player):
+ #       if self.ball_position() < 130:
+  #          return shoot(1,0)
+#    def dribbler(self):
+ #       if self.state.ball.position.x>110:
+  #          return self.shoot(self.but_adv)
+   #     else:
+    #        return self.aller(self.ball_position())+self.shoot(self.my_position()+Vector2D(1,0))
+            
+    def dribbler(self):
+        if (self.ball_position()-self.my_position()) <= Vector2D(settings.PLAYER_RADIUS + settings.BALL_RADIUS,settings.PLAYER_RADIUS + settings.BALL_RADIUS) and self.state.ball.position.x>110:
+            return self.shoot(self.but_adv)
+        else:
+            return self.aller(self.ball_position())+self.shoot(self.my_position()+Vector2D(1,0))

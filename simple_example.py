@@ -29,12 +29,27 @@ class DefenseStrategy(Strategy):
     def compute_strategy(self, state, id_team, id_player):
         if state.ball.position.x > 110:
             return SoccerAction(state.ball.position - state.player_state(id_team, id_player).position,Vector2D(-50, 0))
-            
+
+## Strategie d'attaque
+class DribbleStrategy(Strategy):
+    def __init__(self):
+        Strategy.__init__(self,"Random")
+    def compute_strategy(self,state,id_team,id_player):        
+        me = Toolbox(state, id_team, id_player)
+        return me.dribbler()
+#Strategie dribble
+#class DribbleStartegy(Strategy):
+    #def __init__(self):
+   #     Strategy.__init__(self, "ronaldinho")
+  #  def compute_strategy(self, state, id_team, id_player):
+ #       me = Toolbox(state, id_team, id_player)
+#        return me.dribbler(id_team, id_player)
+
 ## Creation d'une equipe
 team1 = SoccerTeam(name="team1",login="etu1")
 team2 = SoccerTeam(name="team2",login="etu2")
-team1.add("John",ToutDroitStrategy()) #Strategie qui ne fait rien
-team2.add("Paul",RandomStrategy())   #Strategie aleatoire
+team1.add("Alexis",DribbleStrategy()) #Strategie qui ne fait rien
+team2.add("Pique",DefenseStrategy())   #Strategie aleatoire
 
 #Creation d'une partie
 simu = Simulation(team1,team2)
