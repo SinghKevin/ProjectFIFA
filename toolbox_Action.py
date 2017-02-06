@@ -60,12 +60,12 @@ class Action(object) :
     def dribbler(self):
         if (self.state.id_team == 1):
             
-            if (self.state.ball_position()-self.state.my_position()) <= Vector2D(settings.PLAYER_RADIUS + settings.BALL_RADIUS,settings.PLAYER_RADIUS + settings.BALL_RADIUS) and self.state.ball_positionX() >100:
+            if ((self.state.ball_position()-self.state.my_position()).norm <= settings.PLAYER_RADIUS + settings.BALL_RADIUS) and self.state.ball_positionX() >100:
                 return self.shoot(self.state.position_but_adv())
             else:
                 return self.aller(self.state.ball_position())+ self.mini_shoot(self.state.position_but_adv())
         else: 
-            if (self.state.ball_position()-self.state.my_position()) <= Vector2D(settings.PLAYER_RADIUS + settings.BALL_RADIUS,settings.PLAYER_RADIUS + settings.BALL_RADIUS) and self.state.ball_positionX() <50:
+            if ((self.state.ball_position()-self.state.my_position()).norm <= settings.PLAYER_RADIUS + settings.BALL_RADIUS) and self.state.ball_positionX() <50:
                 return self.shoot(self.state.position_but_adv())
             else:
                 return self.aller(self.state.ball_position())+ self.mini_shoot(self.state.position_but_adv())
