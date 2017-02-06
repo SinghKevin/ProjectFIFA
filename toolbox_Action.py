@@ -52,32 +52,40 @@ class Action(object) :
         return SoccerAction(p-self.state.my_position(), Vector2D())
         
     def shoot(self, p):
-        return SoccerAction(Vector2D(), p-self.state.my_position())
+        return SoccerAction(Vector2D(), (p-self.state.my_position())*0.1)
     def mini_shoot(self, p):
-        return SoccerAction(Vector2D(), (p-self.state.my_position())*0.02)
+        return SoccerAction(Vector2D(), (p-self.state.my_position())*0.015)
         
             
     def dribbler(self):
         if (self.state.id_team == 1):
-            
-            if ((self.state.ball_position()-self.state.my_position()).norm <= settings.PLAYER_RADIUS + settings.BALL_RADIUS) and self.state.ball_positionX() >100:
-                return self.shoot(self.state.position_but_adv())
-            else:
+            if ((self.state.ball_position()-self.state.my_position()).norm <= settings.PLAYER_RADIUS + settings.BALL_RADIUS) and self.state.ball_positionX() >110:
+                return self.shoot(self.state.position_but_adv())            
+            elif ((self.state.ball_position()-self.state.my_position()).norm <= settings.PLAYER_RADIUS + settings.BALL_RADIUS):       
                 return self.aller(self.state.ball_position())+ self.mini_shoot(self.state.position_but_adv())
+            else:
+                return self.aller(self.state.ball_position())
         else: 
             if ((self.state.ball_position()-self.state.my_position()).norm <= settings.PLAYER_RADIUS + settings.BALL_RADIUS) and self.state.ball_positionX() <50:
                 return self.shoot(self.state.position_but_adv())
-            else:
+            elif ((self.state.ball_position()-self.state.my_position()).norm <= settings.PLAYER_RADIUS + settings.BALL_RADIUS):       
                 return self.aller(self.state.ball_position())+ self.mini_shoot(self.state.position_but_adv())
-
+            else:
+                return self.aller(self.state.ball_position())
     def defense(self):
         if (self.state.id_team ==1):
-            if self.state.ball_positionX() < 40 :
-                return self.aller(self.state.ball_position()) + self.shoot(Vector2D(50, 0))
+            if ((self.state.ball_position()-self.state.my_position()).norm <= settings.PLAYER_RADIUS + settings.BALL_RADIUS) and self.state.ball_positionX()  < 70 : 
+                return self.aller(self.state.ball_position()) +self.shoot(self.state.position_but_adv())
+            elif self.state.ball_positionX() < 70 :
+                return self.aller(self.state.ball_position())    
         
         else:
-            if self.state.ball_positionX() > 110 :
-                return self.aller(self.state.ball_position()) + self.shoot(Vector2D(-50, 0))
+            if ((self.state.ball_position()-self.state.my_position()).norm <= settings.PLAYER_RADIUS + settings.BALL_RADIUS) and self.state.ball_positionX()  > 110 : 
+                return self.aller(self.state.ball_position()) + self.shoot(self.state.position_but_adv())
+            elif self.state.ball_positionX() > 110 :
+                return self.aller(self.state.ball_position())                
+
+            
 #    def dribbler(self):
 #        if (self.state.ball_position()-self.state.my_position()) <= Vector2D(settings.PLAYER_RADIUS + settings.BALL_RADIUS,settings.PLAYER_RADIUS + settings.BALL_RADIUS) and self.state.ball_positionX() >110:
 #            return self.shoot(self.state.position_but_adv())
