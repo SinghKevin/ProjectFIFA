@@ -86,17 +86,17 @@ class AttaqueStrategy(Strategy):
         return m_action.dribbler()
 
 ### Creation d'une equipe
-#team1 = SoccerTeam(name="team1",login="etu1")
-#team2 = SoccerTeam(name="team2",login="etu2")
-#
+team1 = SoccerTeam(name="team1",login="etu1")
+team2 = SoccerTeam(name="team2",login="etu2")
+
 #team1.add("Alexis",AttaqueStrategy())
-##team1.add("Mertesacker",DefenseStrategy()) #Strategie qui ne fait rien
-#
-#team2.add("Pique",DefenseStrategy())   #Strategie aleatoire
-##team2.add("Neymar",AttaqueStrategy())
-##Creation d'une partie
-#simu = Simulation(team1,team2)
-##Jouer et afficher la partie
-#show_simu(simu)
+team1.add("Mertesacker",DefenseStrategy()) #Strategie qui ne fait rien
+
+team2.add("Pique",DefenseStrategy())   #Strategie aleatoire
+team2.add("Neymar",AttaqueStrategy())
+#Creation d'une partie
+simu = Simulation(team1,team2)
+#Jouer et afficher la partie
+show_simu(simu)
 ##Jouer sans afficher
-#simu.start()
+simu.start()
