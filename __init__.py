@@ -25,4 +25,4 @@ def get_team(i):
         s.add("Puyol ", DefenseStrategy() )
         s.add("Ramos",DefenseStrategy())
     
-    return i
+    return s
