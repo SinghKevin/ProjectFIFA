@@ -36,6 +36,7 @@ class Position(object):
             return Vector2D(settings.GAME_WIDTH,settings.GAME_HEIGHT/2.)
         else :
             return Vector2D(0,settings.GAME_HEIGHT/2.)
+    
         
         
 #####################################################################################################
@@ -53,8 +54,11 @@ class Action(object) :
         
     def shoot(self, p):
         return SoccerAction(Vector2D(), (p-self.state.my_position())*0.1)
+        
     def mini_shoot(self, p):
         return SoccerAction(Vector2D(), (p-self.state.my_position())*0.015)
+        
+    
         
             
     def dribbler(self):
@@ -74,7 +78,7 @@ class Action(object) :
                 return self.aller(self.state.ball_position())
     def defense(self):
         if (self.state.id_team ==1):
-            if ((self.state.ball_position()-self.state.my_position()).norm <= settings.PLAYER_RADIUS + settings.BALL_RADIUS) and self.state.ball_positionX()  < 70 : 
+            if ((self.state.ball_position()-self.state.my_position()).norm <= settings.PLAYER_RADIUS + settings.BALL_RADIUS) and self.state.ball_positionX()  < 50 : 
                 return self.aller(self.state.ball_position()) +self.shoot(self.state.position_but_adv())
             elif self.state.ball_positionX() < 70 :
                 return self.aller(self.state.ball_position())    
@@ -83,7 +87,11 @@ class Action(object) :
             if ((self.state.ball_position()-self.state.my_position()).norm <= settings.PLAYER_RADIUS + settings.BALL_RADIUS) and self.state.ball_positionX()  > 110 : 
                 return self.aller(self.state.ball_position()) + self.shoot(self.state.position_but_adv())
             elif self.state.ball_positionX() > 110 :
-                return self.aller(self.state.ball_position())                
+                return self.aller(self.state.ball_position())        
+                
+#    def retourDef(self):
+#        if 
+#        return aller(Vector2D(50,50))        
 
             
 #    def dribbler(self):
