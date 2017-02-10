@@ -26,6 +26,22 @@ class FonceurStrategy(Strategy):
         m_pos = toolbox_Action.Position(state, id_team, id_player)
         m_action= toolbox_Action.Action(m_pos)
         return m_action.aller(m_pos.ball_position()) + m_action.shoot(m_pos.position_but_adv())
+        
+
+#Classe avec la memoire ==> A modifier
+#class FonceurStrategy(Strategy):
+#    def __init__(self):
+#      Strategy.__init__(self,"Fonceur")
+#      self.memoire = dict()
+#      self.memoire[""a""] = 1
+#    def compute_strategy(self,state,id_team,id_player):        
+#       m_pos = toolbox_Action.Position(state, id_team, id_player)
+#       m_action= toolbox_Action.Action(m_pos,self.memoire )
+#        
+#       return m_action.aller(m_pos.ball_position()) + m_action.shoot(m_pos.position_but_adv())        
+        
+        
+        
         #return fonceur(Action(state, id_team, id_player))
 #Stategie de defense
 #class DefenseStrategy(Strategy):
@@ -52,7 +68,15 @@ class DefenseStrategy(Strategy):
     def compute_strategy(self, state, id_team, id_player):
         m_pos = toolbox_Action.Position(state, id_team, id_player)
         m_action= toolbox_Action.Action(m_pos)
-        return m_action.defense() 
+        return m_action.defense()
+
+class GardienStrategy(Strategy):
+    def __init__(self):
+        Strategy.__init__(self,"Random")
+    def compute_strategy(self, state, id_team, id_player):
+        m_pos = toolbox_Action.Position(state, id_team, id_player)
+        m_action= toolbox_Action.Action(m_pos)
+        return m_action.gardien1() 
 
 ## Strategie d'attaque
 #class DribbleStrategy(Strategy):
@@ -85,18 +109,18 @@ class AttaqueStrategy(Strategy):
         m_action= toolbox_Action.Action(m_pos)
         return m_action.dribbler()
 
-#### Creation d'une equipe
+### Creation d'une equipe
 #team1 = SoccerTeam(name="team1",login="etu1")
 #team2 = SoccerTeam(name="team2",login="etu2")
 #
-##team1.add("Alexis",AttaqueStrategy())
-#team1.add("Mertesacker",DefenseStrategy()) #Strategie qui ne fait rien
+#team1.add("Alexis",GardienStrategy())
+#team1.add("Mertesacker",RandomStrategy()) #Strategie qui ne fait rien
 #
-##team2.add("Pique",DefenseStrategy())   #Strategie aleatoire
+#team2.add("Pique",AttaqueStrategy())   #Strategie aleatoire
 #team2.add("Neymar",AttaqueStrategy())
 ##Creation d'une partie
 #simu = Simulation(team1,team2)
 ##Jouer et afficher la partie
 #show_simu(simu)
-###Jouer sans afficher
+##Jouer sans afficher
 #simu.start()

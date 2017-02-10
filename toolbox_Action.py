@@ -30,14 +30,30 @@ class Position(object):
         return self.state.ball.position.x
     def ball_positionY(self):
         return self.state.ball.position.y
+        
 
     def position_but_adv(self):
         if self.id_team == 1:
             return Vector2D(settings.GAME_WIDTH,settings.GAME_HEIGHT/2.)
         else :
             return Vector2D(0,settings.GAME_HEIGHT/2.)
+            
+    def ball_vitesse(self):
+        return self.state.ball.vitesse
     
-        
+    def zone_tir(self):
+        return (self.ball_position()-self.my_position()).norm <= settings.PLAYER_RADIUS + settings.BALL_RADIUS
+#    
+#    def pos_j1(self):
+#         return self.state.player_state(self.id_team,1).position
+#         
+#    def pos_j2(self):
+#         return self.state.player_state(self.id_team,2).position        
+
+    
+    def ball_trajectoire(self):
+        return self.ball_position() + self.ball_vitesse()*11
+         
         
 #####################################################################################################
         
@@ -49,45 +65,114 @@ class Action(object) :
 #        self.mon_but = Vector2D(0, settings.GAME_HEIGHT/2)
 #        self.but_adv = Vector2D(settings.GAME_WIDTH, settings.GAME_HEIGHT/2)
 #        self.Position = Position
+ 
     def aller(self, p):
-        return SoccerAction(p-self.state.my_position(), Vector2D())
+        return SoccerAction((p-self.state.my_position()), Vector2D())    
+    
+    def aller_balle(self):
+        return self.aller(self.state.ball_trajectoire())
         
     def shoot(self, p):
-        return SoccerAction(Vector2D(), (p-self.state.my_position())*0.1)
+        if self.state.zone_tir():
+            return SoccerAction(Vector2D(), (p-self.state.my_position())*0.1)
+    
+    def degagement(self):
+        if self.state.zone_tir():
+            return SoccerAction(Vector2D(),self.state.position_but_adv())
+        else :
+            return self.aller(self.state.ball_position())
         
     def mini_shoot(self, p):
-        return SoccerAction(Vector2D(), (p-self.state.my_position())*0.015)
-        
+        if self.state.zone_tir() :
+            return SoccerAction(Vector2D(), (p-self.state.my_position())*0.015)
+        else :
+            return self.aller(self.state.ball_position())
+            
+#    def passe(self):
+#        if (self.state.id_player == 1):
+#                return self.shoot(self.state.pos_j2())
+#        else :
+#            return self.shoot(self.state.pos_j1())
     
+
+    
+#    def placement_gardien(self):
+#        return self.aller(Vector2D(10,self.state.ball_position()+self.state.vitesse_balle()*11 ))
+        
+#    def passe(self):
+#        if (self.state.id_player == 1):
+#                return self.shoot(self.state.pos_j2())
+#        else :
+#            return self.shoot(self.state.pos_j1())
+        
+    def gardien1(self):
+        if self.state.id_team==1:
+            if self.state.ball_positionX()>settings.GAME_WIDTH-110:
+                if self.state.ball_positionY()>30 and self.state.ball_positionY()<60:                    
+                    return self.aller(Vector2D(10,self.state.ball_trajectoire().y))
+                else :
+                    return self.aller(Vector2D(10,45))
+                #return self.aller(Vector2D(25,45))
+            else:
+                return self.degagement()
+        else:
+            if self.state.ball_positionX()<settings.GAME_WIDTH-40:
+                if self.state.ball_positionY()>30 and self.state.ball_positionY()<60:
+                    return self.aller(Vector2D(135,self.state.ball_trajectoire().y))
+                else :
+                    return self.aller(Vector2D(135,45))
+            else:
+                return self.degagement()
         
             
     def dribbler(self):
         if (self.state.id_team == 1):
-            if ((self.state.ball_position()-self.state.my_position()).norm <= settings.PLAYER_RADIUS + settings.BALL_RADIUS) and self.state.ball_positionX() >110:
-                return self.shoot(self.state.position_but_adv())            
-            elif ((self.state.ball_position()-self.state.my_position()).norm <= settings.PLAYER_RADIUS + settings.BALL_RADIUS):       
+            if self.state.zone_tir() and self.state.ball_positionX() >110:
+                return self.shoot(self.state.position_but_adv())    
+                
+            elif self.state.zone_tir():       
                 return self.aller(self.state.ball_position())+ self.mini_shoot(self.state.position_but_adv())
+                
             else:
                 return self.aller(self.state.ball_position())
+                
         else: 
-            if ((self.state.ball_position()-self.state.my_position()).norm <= settings.PLAYER_RADIUS + settings.BALL_RADIUS) and self.state.ball_positionX() <50:
+            if self.state.zone_tir() and self.state.ball_positionX() <40:
                 return self.shoot(self.state.position_but_adv())
-            elif ((self.state.ball_position()-self.state.my_position()).norm <= settings.PLAYER_RADIUS + settings.BALL_RADIUS):       
+                
+            elif self.state.zone_tir():       
                 return self.aller(self.state.ball_position())+ self.mini_shoot(self.state.position_but_adv())
+                
             else:
                 return self.aller(self.state.ball_position())
+                
+                
     def defense(self):
         if (self.state.id_team ==1):
-            if ((self.state.ball_position()-self.state.my_position()).norm <= settings.PLAYER_RADIUS + settings.BALL_RADIUS) and self.state.ball_positionX()  < 50 : 
-                return self.aller(self.state.ball_position()) +self.shoot(self.state.position_but_adv())
-            elif self.state.ball_positionX() < 70 :
-                return self.aller(self.state.ball_position())    
+            if self.state.zone_tir()  and self.state.ball_positionX()  < 75 : 
+                return self.aller(self.state.ball_position()+self.state.ball_vitesse()*9) +self.shoot(self.state.position_but_adv())
+                
+            elif self.state.ball_positionX() < 75 :
+                return self.aller(self.state.ball_position()+self.state.ball_vitesse()*9)    
         
         else:
-            if ((self.state.ball_position()-self.state.my_position()).norm <= settings.PLAYER_RADIUS + settings.BALL_RADIUS) and self.state.ball_positionX()  > 110 : 
-                return self.aller(self.state.ball_position()) + self.shoot(self.state.position_but_adv())
+            if self.state.zone_tir()  and self.state.ball_positionX()  > 100 : 
+                return self.aller(self.state.ball_position()+self.state.ball_vitesse()*9) + self.shoot(self.state.position_but_adv())
+                
             elif self.state.ball_positionX() > 110 :
-                return self.aller(self.state.ball_position())        
+                return self.aller(self.state.ball_position()+self.state.ball_vitesse()*9)   
+                
+                
+#    def gardien(self):
+#        if (self.state.id_team ==1):
+#            if (self.state.ball_positionX()>40) :
+#                return  self.placement_gardien()
+#            else :
+#                if self.state.zone_tir()  :
+#                    return self.aller(self.state.ball_position()+self.state.vitesse_balle()*150) +self.shoot(self.state.position_but_adv()) 
+
+#    def dribble(self):
+#        if 
                 
 #    def retourDef(self):
 #        if 
@@ -107,4 +192,4 @@ class Action(object) :
 #    def dribbler(self):
  #       if self.state.ball.position.x>110:
   #          return self.shoot(self.but_adv)
-   #     else:
+   #     else
