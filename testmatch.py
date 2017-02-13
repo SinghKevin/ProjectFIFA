@@ -68,17 +68,17 @@ from strategy import *
 
 
 ## Creation d'une equipe
-team1 = SoccerTeam(name="team1",login="etu1")
-team2 = SoccerTeam(name="team2",login="etu2")
+#team1 = SoccerTeam(name="team1",login="etu1")
+#team2 = SoccerTeam(name="team2",login="etu2")
 
-team1.add("Alexis",GardienStrategy())
+#team1.add("Alexis",GardienStrategy())
 #team1.add("Mertesacker",AttaqueStrategy()) #Strategie qui ne fait rien
 
-team2.add("Pique",AttaqueStrategy())   #Strategie aleatoire
+#team2.add("Pique",AttaqueStrategy())   #Strategie aleatoire
 #team2.add("Neymar",GardienStrategy())
 #Creation d'une partie
-simu = Simulation(team1,team2)
+#simu = Simulation(team1,team2)
 #Jouer et afficher la partie
-show_simu(simu)
+#show_simu(simu)
 #Jouer sans afficher
-simu.start()
+#simu.start()
