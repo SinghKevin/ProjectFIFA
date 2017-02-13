@@ -1,7 +1,7 @@
 import toolbox_Action
 #from teams import team1, team2
 from soccersimulator import Player,SoccerTeam
-from strategy import AttaqueStrategy,DefenseStrategy
+from strategy import *
 ##Creation d'une equipe
 #team1 = SoccerTeam(name="team1",login="etu1")
 #team2 = SoccerTeam(name="team2",login="etu2")

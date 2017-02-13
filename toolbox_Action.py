@@ -53,7 +53,9 @@ class Position(object):
     
     def ball_trajectoire(self):
         return self.ball_position() + self.ball_vitesse()*11
-         
+    
+    def ball_trajectoire_gardien(self):
+        return self.ball_position() + self.ball_vitesse()*12         
         
 #####################################################################################################
         
@@ -78,7 +80,7 @@ class Action(object) :
     
     def degagement(self):
         if self.state.zone_tir():
-            return SoccerAction(Vector2D(),self.state.position_but_adv())
+            return SoccerAction(Vector2D(),self.state.position_but_adv()-self.state.my_position())
         else :
             return self.aller(self.state.ball_position())
         
@@ -109,20 +111,85 @@ class Action(object) :
         if self.state.id_team==1:
             if self.state.ball_positionX()>settings.GAME_WIDTH-110:
                 if self.state.ball_positionY()>30 and self.state.ball_positionY()<60:                    
-                    return self.aller(Vector2D(10,self.state.ball_trajectoire().y))
+                    return self.aller(Vector2D(15,self.state.ball_trajectoire_gardien().y))
                 else :
-                    return self.aller(Vector2D(10,45))
-                #return self.aller(Vector2D(25,45))
+                    return self.aller(Vector2D(15,45))
+    
             else:
                 return self.degagement()
         else:
             if self.state.ball_positionX()<settings.GAME_WIDTH-40:
                 if self.state.ball_positionY()>30 and self.state.ball_positionY()<60:
-                    return self.aller(Vector2D(135,self.state.ball_trajectoire().y))
+                    return self.aller(Vector2D(135,self.state.ball_trajectoire_gardien().y))
                 else :
                     return self.aller(Vector2D(135,45))
             else:
                 return self.degagement()
+    
+    def gardien_haut(self):
+        if self.state.id_team==1:
+            if self.state.ball_positionX()>settings.GAME_WIDTH-90:
+                if self.state.ball_positionY()>50 and self.state.ball_positionX()<75:                    
+                    return self.aller(self.state.ball_trajectoire_gardien())
+                else :
+                    return self.aller(Vector2D(10,50))
+               
+            else:
+                return self.degagement()
+        else:
+            if self.state.ball_positionX()<settings.GAME_WIDTH-40:
+                if self.state.ball_positionY()>50 and self.state.ball_positionY()>75:
+                    return self.aller(self.state.ball_trajectoire_gardien())
+                else :
+                    return self.aller(Vector2D(135,50))
+            else:
+                return self.degagement()
+    def gardien_bas(self):
+        if self.state.id_team==1:
+            if self.state.ball_positionX()>settings.GAME_WIDTH-90:
+                if self.state.ball_positionY()<40 and self.state.ball_positionX()<75:                    
+                    return self.aller(self.state.ball_trajectoire_gardien())
+                else :
+                    return self.aller(Vector2D(10,40))
+   
+            else:
+                return self.degagement()
+        else:
+            if self.state.ball_positionX()<settings.GAME_WIDTH-40:
+                if self.state.ball_positionY()<40 and self.state.ball_positionY()>75:
+                    return self.aller(self.state.ball_trajectoire_gardien())
+                else :
+                    return self.aller(Vector2D(135,40))
+            else:
+                return self.degagement()
+    def gardien_milieu(self):
+        if self.state.id_team==1:
+            if self.state.ball_positionX()>settings.GAME_WIDTH-90:
+                if self.state.ball_positionY()>40 and self.state.ball_positionY()<50 and self.state.ball_positionX()<75:                    
+                    return self.aller(self.state.ball_trajectoire_gardien())
+                else :
+                    return self.aller(Vector2D(10,45))
+
+            else:
+                return self.degagement()
+        else:
+            if self.state.ball_positionX()<settings.GAME_WIDTH-40:
+                if self.state.ball_positionY()>40 and self.state.ball_positionY()<50 and self.state.ball_positionY()>75:
+                    return self.aller(self.state.ball_trajectoire_gardien())
+                else :
+                    return self.aller(Vector2D(135,45))
+            else:
+                return self.degagement()
+                
+    def gardien(self):
+        if self.state.ball_positionY()>50:
+            return self.gardien_haut()
+        elif self.state.ball_positionY()<40:
+            return self.gardien_bas()
+        else:
+            return self.gardien_milieu()
+
+            
         
             
     def dribbler(self):
@@ -150,18 +217,19 @@ class Action(object) :
     def defense(self):
         if (self.state.id_team ==1):
             if self.state.zone_tir()  and self.state.ball_positionX()  < 75 : 
-                return self.aller(self.state.ball_position()+self.state.ball_vitesse()*9) +self.shoot(self.state.position_but_adv())
+                return self.aller(self.state.ball_position()+self.state.ball_vitesse()*5) +self.shoot(self.state.position_but_adv())
                 
             elif self.state.ball_positionX() < 75 :
-                return self.aller(self.state.ball_position()+self.state.ball_vitesse()*9)    
+                return self.aller(self.state.ball_position()+self.state.ball_vitesse()*5)    
         
         else:
             if self.state.zone_tir()  and self.state.ball_positionX()  > 100 : 
                 return self.aller(self.state.ball_position()+self.state.ball_vitesse()*9) + self.shoot(self.state.position_but_adv())
                 
-            elif self.state.ball_positionX() > 110 :
+            elif self.state.ball_positionX() > 100 :
                 return self.aller(self.state.ball_position()+self.state.ball_vitesse()*9)   
-                
+
+                  
                 
 #    def gardien(self):
 #        if (self.state.id_team ==1):
