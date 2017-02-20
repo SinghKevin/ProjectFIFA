@@ -30,7 +30,7 @@ class FonceurStrategy(Strategy):
     def compute_strategy(self,state,id_team,id_player):        
         m_pos = test_bis.Position(state, id_team, id_player)
         m_action= test_bis.Action(m_pos)
-        return m_action.aller(m_pos.ball_position()) + m_action.shoot(m_pos.position_but_adv())
+        return m_action.aller(m_pos.ball_position())
         
 class DefenseStrategy(Strategy):
     def __init__(self):
@@ -55,3 +55,12 @@ class AttaqueStrategy(Strategy):
         m_pos = test_bis.Position(state, id_team, id_player)
         m_action= test_bis.Action(m_pos)
         return m_action.dribbler()
+
+
+class CampeurStrategy(Strategy):
+    def __init__(self):
+        Strategy.__init__(self, "ronaldinho")
+    def compute_strategy(self, state, id_team, id_player):
+        m_pos = test_bis.Position(state, id_team, id_player)
+        m_action= test_bis.Action(m_pos)
+        return m_action.attaque_2vs2_bis()
