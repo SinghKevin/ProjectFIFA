@@ -17,12 +17,12 @@ def get_team(i):
     if i == 1:
         s.add("Iniesta", AttaqueStrategy() )
     if i == 2:
-        s.add("Yaya",DefenseStrategy()  )
+        s.add("Yaya",GardienStrategy()  )
         s.add("Zlatan",AttaqueStrategy() )
     if i ==4 :
         s.add("Aguero",AttaqueStrategy() )
         s.add("Suarez ",AttaqueStrategy() )
-        s.add("Puyol ", DefenseStrategy() )
-        s.add("Ramos",DefenseStrategy())
+        s.add("Puyol ", GardienStrategy() )
+        s.add("T. Silva", GardienStrategy())
     
     return s
