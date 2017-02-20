@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 """
+Created on Fri Feb 17 10:17:53 2017
+
+@author: singh
+"""
+
+# -*- coding: utf-8 -*-
+"""
 Created on Mon Jan 30 18:54:40 2017
 
 @author: 3202238
@@ -16,13 +23,27 @@ import math
 
 #Toolbox
 class Position(object):
-    def __init__(self, state, id_team, id_player):
+    def __init__(self, state,id_team,id_player):
         self.state = state
         self.id_team = id_team
         self.id_player = id_player
+        self.id_cle = (id_team, id_player)
     
     def my_position(self):
-        return self.state.player_state(self.id_team, self.id_player).position
+        return self.state.player_state(self.cle[0],self.cle[1]).position
+    
+    def position_joueur(self):
+         if (self.cle[0]==1):
+            if (self.cle[1]==0):
+                return self.state.player_state(1,1).position
+            if (self.cle[1]==1):
+                return self.state.player_state(1,0).position
+         if (self.cle[0]==2):
+            if (self.cle[1]==0):
+                return self.state.player_state(2,1).position
+            if (self.cle[1]==1):
+                return self.state.player_state(2,0).position
+        
     
     def ball_position(self):
         return self.state.ball.position
@@ -33,7 +54,7 @@ class Position(object):
         
 
     def position_but_adv(self):
-        if self.id_team == 1:
+      if (self.state.cle[0]==1):
             return Vector2D(settings.GAME_WIDTH,settings.GAME_HEIGHT/2.)
         else :
             return Vector2D(0,settings.GAME_HEIGHT/2.)
@@ -86,6 +107,13 @@ class Action(object) :
             return self.aller(self.state.ball_position())
 
 
+# relance_gadien : permet de faire un dégagement mais a la place de tirer n'importe où le gardien fait la passe à son coéquipier    
+#    def relance_gardien(self):
+#        if self.state.zone_tir():
+#            return SoccerAction(Vector2D(),self.state.position_coequipier()-self.state.my_position())
+#        else :
+#            return self.aller(self.state.ball_position())
+
         
     def mini_shoot(self, p):
         if self.state.zone_tir() :
@@ -96,7 +124,7 @@ class Action(object) :
     
             
     def passe(self):
-        if (self.state.id_player == 1):
+        if (state.cle[0]==1):
                 return self.shoot(self.state.pos_j2())
         else :
             return self.shoot(self.state.pos_j1())
@@ -111,28 +139,10 @@ class Action(object) :
 #                return self.shoot(self.state.pos_j2())
 #        else :
 #            return self.shoot(self.state.pos_j1())
-        
-    def gardien1(self):
-        if self.state.id_team==1:
-            if self.state.ball_positionX()>settings.GAME_WIDTH-110:
-                if self.state.ball_positionY()>30 and self.state.ball_positionY()<60:                    
-                    return self.aller(Vector2D(15,self.state.ball_trajectoire_gardien().y))
-                else :
-                    return self.aller(Vector2D(15,45))
     
-            else:
-                return self.degagement()
-        else:
-            if self.state.ball_positionX()<settings.GAME_WIDTH-40:
-                if self.state.ball_positionY()>30 and self.state.ball_positionY()<60:
-                    return self.aller(Vector2D(135,self.state.ball_trajectoire_gardien().y))
-                else :
-                    return self.aller(Vector2D(135,45))
-            else:
-                return self.degagement()
     
     def gardien_haut(self):
-        if self.state.id_team==1:
+        if (self.state.cle[0]==1):
             if self.state.ball_positionX()>settings.GAME_WIDTH-90:
                 if self.state.ball_positionY()>50 and self.state.ball_positionX()<75:                    
                     return self.aller(self.state.ball_trajectoire_gardien())
@@ -141,7 +151,8 @@ class Action(object) :
                
             else:
                 return self.degagement()
-        else:
+                
+        if (self.state.cle[0]==2):
             if self.state.ball_positionX()<settings.GAME_WIDTH-60:
                 if self.state.ball_positionY()>50 and self.state.ball_positionY()>75:
                     return self.aller(self.state.ball_trajectoire_gardien())
@@ -149,8 +160,9 @@ class Action(object) :
                     return self.aller(Vector2D(135,50))
             else:
                 return self.degagement()
+                
     def gardien_bas(self):
-        if self.state.id_team==1:
+       if (self.state.cle[0]==1):
             if self.state.ball_positionX()>settings.GAME_WIDTH-90:
                 if self.state.ball_positionY()<40 and self.state.ball_positionX()<75:                    
                     return self.aller(self.state.ball_trajectoire_gardien())
@@ -159,7 +171,8 @@ class Action(object) :
    
             else:
                 return self.degagement()
-        else:
+       
+       if (self.state.cle[0]==2):
             if self.state.ball_positionX()<settings.GAME_WIDTH-60:
                 if self.state.ball_positionY()<40 and self.state.ball_positionY()>75:
                     return self.aller(self.state.ball_trajectoire_gardien())
@@ -167,8 +180,9 @@ class Action(object) :
                     return self.aller(Vector2D(135,40))
             else:
                 return self.degagement()
+                
     def gardien_milieu(self):
-        if self.state.id_team==1:
+        if (self.state.cle[0]==1):
             if self.state.ball_positionX()>settings.GAME_WIDTH-90:
                 if self.state.ball_positionY()>40 and self.state.ball_positionY()<50 and self.state.ball_positionX()<75:                    
                     return self.aller(self.state.ball_trajectoire_gardien())
@@ -177,7 +191,8 @@ class Action(object) :
 
             else:
                 return self.degagement()
-        else:
+                
+        if (self.state.cle[0]==2):
             if self.state.ball_positionX()<settings.GAME_WIDTH-60:
                 if self.state.ball_positionY()>40 and self.state.ball_positionY()<50 and self.state.ball_positionY()>75:
                     return self.aller(self.state.ball_trajectoire_gardien())

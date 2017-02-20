@@ -55,3 +55,5 @@ class AttaqueStrategy(Strategy):
         m_pos = toolbox_Action.Position(state, id_team, id_player)
         m_action= toolbox_Action.Action(m_pos)
         return m_action.dribbler()
+
+
