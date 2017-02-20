@@ -5,8 +5,6 @@ Created on Mon Jan 30 18:54:40 2017
 @author: 3202238
 """
 
-
-
 from soccersimulator import Vector2D, SoccerState, SoccerAction
 from soccersimulator import settings
 from soccersimulator.strategies  import Strategy
@@ -126,7 +124,7 @@ class Action(object) :
             if self.state.ball_positionX()<settings.GAME_WIDTH-40:
                 if self.state.ball_positionY()>30 and self.state.ball_positionY()<60:
                     return self.aller(Vector2D(135,self.state.ball_trajectoire_gardien().y))
-<<<<<<< HEAD
+
                 else :
                     return self.aller(Vector2D(135,45))
             else:
@@ -182,14 +180,12 @@ class Action(object) :
             if self.state.ball_positionX()<settings.GAME_WIDTH-40:
                 if self.state.ball_positionY()>40 and self.state.ball_positionY()<50 and self.state.ball_positionY()>75:
                     return self.aller(self.state.ball_trajectoire_gardien())
-=======
->>>>>>> 6dff2d5ad09237c4c082cb91832ed383a395bdfc
+
                 else :
                     return self.aller(Vector2D(135,45))
             else:
                 return self.degagement()
-<<<<<<< HEAD
-=======
+
     
     def gardien_haut(self):
         if self.state.id_team==1:
@@ -245,7 +241,7 @@ class Action(object) :
                     return self.aller(Vector2D(135,45))
             else:
                 return self.degagement()
->>>>>>> 6dff2d5ad09237c4c082cb91832ed383a395bdfc
+
                 
     def gardien(self):
         if self.state.ball_positionY()>50:
@@ -293,16 +289,15 @@ class Action(object) :
                 return self.aller(self.state.ball_position()+self.state.ball_vitesse()*9) + self.shoot(self.state.position_but_adv())
                 
             elif self.state.ball_positionX() > 100 :
-<<<<<<< HEAD
+
                 return self.aller(self.state.ball_position()+self.state.ball_vitesse()*9)   
-=======
-                return self.aller(self.state.ball_position()+self.state.ball_vitesse()*9)  
+        return self.aller(self.state.ball_position()+self.state.ball_vitesse()*9)  
                 
     
 #    def passe(self):
 #        if (self.state.id_team ==1):
             
->>>>>>> 6dff2d5ad09237c4c082cb91832ed383a395bdfc
+
 
                   
                 
