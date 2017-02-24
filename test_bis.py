@@ -104,7 +104,10 @@ class Position(object):
             return Vector2D(140,45)
     
     def placement_campeur(self):
-        return Vector2D(75,0)
+        if self.key[0]==1:
+            return Vector2D(75,30)
+        else:
+            return Vector2D(75,60)
       
     def surface(self):
         if self.key[0]==1:
@@ -216,9 +219,15 @@ class Action(object) :
             else :
                 return self.shoot(self.state.position_but_adv())
         else :
-            return self.state.placement_campeur()
+            return self.aller(self.state.placement_campeur())
         
             
     def passe(self):
-        return self.shoot(self.state.pos_joueur_plus_proche())
+         if self.state.zone_tir():
+             return self.shoot(self.state.pos_joueur_plus_proche())
+         else :
+             return self.aller(self.state.ball_position())
+
+
+#       return self.shoot(self.state.pos_joueur_plus_proche())
         

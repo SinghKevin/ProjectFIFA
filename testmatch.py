@@ -79,7 +79,7 @@ team1.add("Mertesacker",GardienStrategy()) #Strategie qui ne fait rien
 team1.add("Campeur", CampeurStrategy()) 
 #
 team2.add("Pique",GardienStrategy())   #Strategie aleatoire
-team2.add("Neymar",AttaqueStrategy())
+team2.add("Neymar",CampeurStrategy())
 #Creation d'une partie
 simu = Simulation(team1,team2)
 #Jouer et afficher la partie
