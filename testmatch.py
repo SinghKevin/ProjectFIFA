@@ -78,12 +78,12 @@ from strategy import *
 team1 = SoccerTeam(name="team1",login="etu1")
 team2 = SoccerTeam(name="team2",login="etu2")
 
-#team1.add("Alexis",RandomStrategy())
-#team1.add("Mertesacker",GardienStrategy()) #Strategie qui ne fait rien
-team1.add("Campeur", AttaqueStrategy()) 
+#team2.add("Alexis",RandomStrategy())
+team1 .add("Mertesacker",GardienStrategy()) #Strategie qui ne fait rien
+team1.add("Campeur", CampeurStrategy()) 
 #
 team2.add("Pique",GardienStrategy())   #Strategie aleatoire
-#team2.add("Neymar",RandomStrategy())
+team2.add("Neymar",CampeurStrategy_1())
 #Creation d'une partie
 simu = Simulation(team1,team2)
 #Jouer et afficher la partie
