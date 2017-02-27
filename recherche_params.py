@@ -57,7 +57,7 @@ class ShootSearch(object):
         self.simu.state.states[(1,0)].position = position.copy()
         self.simu.state.states[(1,0)].vitesse = Vector2D()
         self.simu.state.ball.position = position.copy()
-        self.strat.norm = self.params[self.idx]
+        self.strat.norm = self.params[self.idx] if self.idx < len(self.params) else 1
         self.last = self.simu.step
     def update_round(self,team1,team2,state):
         """ si pas maximal atteint, fin du tour"""
