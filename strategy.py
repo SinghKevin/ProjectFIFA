@@ -80,3 +80,11 @@ class AttaqueStrategy_1vs1(Strategy):
         m_pos = test_bis.Position(state, id_team, id_player)
         m_action= test_bis.Action(m_pos)
         return m_action.defenseur_1vs1()
+
+class Pos_Strategy(Strategy):
+    def __init__(self):
+        Strategy.__init__(self, "ronaldinho")
+    def compute_strategy(self, state, id_team, id_player):
+        m_pos = test_bis.Position(state, id_team, id_player)
+        m_action= test_bis.Action(m_pos)
+        return m_action.aller(m_pos.placement_campeur_2())
