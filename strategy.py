@@ -64,3 +64,10 @@ class CampeurStrategy(Strategy):
         m_pos = test_bis.Position(state, id_team, id_player)
         m_action= test_bis.Action(m_pos)
         return m_action.attaque_2vs2_bis()
+class AttaqueStrategy_1vs1(Strategy):
+    def __init__(self):
+        Strategy.__init__(self, "ronaldinho")
+    def compute_strategy(self, state, id_team, id_player):
+        m_pos = test_bis.Position(state, id_team, id_player)
+        m_action= test_bis.Action(m_pos)
+        return m_action.defenseur_1vs1()

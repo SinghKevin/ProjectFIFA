@@ -6,7 +6,31 @@ from soccersimulator import settings
 import math
 from strategy import * 
 
-
+#class Observer(object):
+# MAX_STEP=50
+# def __init__(self,simu):
+# self.simu = simu
+# self.simu.listeners += self
+# #ajout de lobserver
+# def begin_match(self,team1,team2,state):
+# #initialisation des parametres ...
+# self.last, self.cpt, self.cpt_tot = 0, 0, 0,
+# def begin_round(self,team1,team2,state):
+# self.simu.state.states[(1,0)].position = Vector2D(130,45)
+# self.simu.state.ball.position = Vector2D(130,45)
+# self.last = self.simu.step
+# def update_round(self,team1,team2,state):
+# if self.simu.step>self.last+self.MAX_STEP:
+# self.simu.end_round()
+# def end_round(self,team1,team2,state):
+# if state.goal>0:
+# self.cpt+=1
+# self.cpt_tot+=1
+# self.res= self.cpt*1./self.cpt_tot
+# print(self.res)
+## if self.simu.step == self.MAX_STEP: #fin de la simu
+## print(self.res)
+## self.simu.end_match()
 
         
 #Classe avec la memoire ==> A modifier
@@ -44,29 +68,9 @@ from strategy import *
 #            return SoccerAction(Position.ball_position() - Position.my_position(),Vector2D(-50, 0))
 #Stategie de defense
 
-## Strategie d'attaque
-#class DribbleStrategy(Strategy):
-#    def __init__(self):
-#        Strategy.__init__(self,"Dribble")
-#    def compute_strategy(self,state,id_team,id_player):        
-#        m_action = Action(state, id_team, id_player)
-#        return dribble(m_action)
         
 
 
-##class AttaqueStrategy(Strategy):
-# {   def __init__(self):
-#        Strategy.__init__(self,"Attaque")
-#    def compute_strategy(self,state,       
-#        m_action = Action(state, id_team, id_player)
-#        if state.ball.position.x > 110: 
-#            return dribble(m_action)
-#            
-#        else :
-#            return attaque(m_action)
-
-
-#Strategie dribble
 
 
 ## Creation d'une equipe
@@ -75,11 +79,11 @@ team1 = SoccerTeam(name="team1",login="etu1")
 team2 = SoccerTeam(name="team2",login="etu2")
 
 #team1.add("Alexis",RandomStrategy())
-team1.add("Mertesacker",GardienStrategy()) #Strategie qui ne fait rien
-team1.add("Campeur", CampeurStrategy()) 
+#team1.add("Mertesacker",GardienStrategy()) #Strategie qui ne fait rien
+team1.add("Campeur", AttaqueStrategy()) 
 #
 team2.add("Pique",GardienStrategy())   #Strategie aleatoire
-team2.add("Neymar",CampeurStrategy())
+#team2.add("Neymar",RandomStrategy())
 #Creation d'une partie
 simu = Simulation(team1,team2)
 #Jouer et afficher la partie
