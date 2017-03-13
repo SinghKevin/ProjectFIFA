@@ -97,7 +97,7 @@ class Position(object):
         return Vector2D(abs(self.position_mon_but().x-100),15)
     
     def placement_campeur_2(self):
-        return Vector2D(abs(self.position_mon_but().x-100),self.ball_positionY())
+        return Vector2D(abs(self.position_mon_but().x-90),self.ball_positionY())
               
     def surface(self):
         if self.key[0]==1:
@@ -132,7 +132,7 @@ class Action(object) :
         
     def shoot(self, p):
         if self.state.zone_tir():
-            return SoccerAction(Vector2D(), (p-self.state.my_position())*0.1)
+            return SoccerAction(Vector2D(), (p-self.state.my_position())*0.1011)
             
     def shoot_passe(self, p):
         if self.state.zone_tir():

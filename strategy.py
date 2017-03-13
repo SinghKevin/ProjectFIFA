@@ -24,6 +24,14 @@ class RandomStrategy(Strategy):
 #     return m_action.aller(m_pos.ball_position()) + m_action.shoot(m_pos.position_but_adv())
      
      ## Strategie d'attaque
+class ShooteurStrategy(Strategy):
+    def __init__(self):        
+        Strategy.__init__(self,"Fonceur")
+    def compute_strategy(self,state,id_team,id_player):
+        m_pos = test_bis.Position(state, id_team, id_player)
+        m_action= test_bis.Action(m_pos)
+        return m_action.shoot(m_pos.position_but_adv())
+        
 class FonceurStrategy(Strategy):
     def __init__(self):
         Strategy.__init__(self,"Fonceur")

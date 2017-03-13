@@ -22,13 +22,13 @@ class ShootSearch(object):
     def __init__(self):
         self.strat = ShootExpe()
         team1 = SoccerTeam("test")
-        team1.add("Expe",AttaqueStrategy())
+        team1.add("Expe",ShooteurStrategy())
         team2 = SoccerTeam("test2")
         team2.add("Nothing",Strategy())
         self.simu = Simulation(team1,team2,max_steps=1000000)
         self.simu.listeners+=self
-        self.discr_step = 10
-        self.nb_essais = 10
+        self.discr_step = 20
+        self.nb_essais = 20
     def start(self,visu=True):
         """ demarre la visualisation avec ou sans affichage"""
         if visu :
@@ -48,16 +48,16 @@ class ShootSearch(object):
         self.last = 0
         self.but = 0
         self.cpt = 0
-        self.params = [x for x in  np.linspace(1,settings.maxPlayerShoot,self.discr_step)]
+        self.params = [x for x in  np.linspace(10,70,self.discr_step)]
         self.idx=0
 
     def begin_round(self,team1,team2,state):
         """ engagement : position random du joueur et de la balle """
-        position = Vector2D(np.random.random()*settings.GAME_WIDTH/2.+settings.GAME_WIDTH/2.,np.random.random()*settings.GAME_HEIGHT)
+        position = Vector2D(150-self.params[self.idx],np.random.random()*settings.GAME_HEIGHT)
         self.simu.state.states[(1,0)].position = position.copy()
         self.simu.state.states[(1,0)].vitesse = Vector2D()
         self.simu.state.ball.position = position.copy()
-        self.strat.norm = self.params[self.idx] if self.idx < len(self.params) else 1
+        self.strat.norm = self.params[self.idx]
         self.last = self.simu.step
     def update_round(self,team1,team2,state):
         """ si pas maximal atteint, fin du tour"""
@@ -70,6 +70,7 @@ class ShootSearch(object):
         if self.cpt>=self.nb_essais:
             self.res[self.params[self.idx]] = self.but*1./self.cpt
             logger.debug("parametre %s : %f" %((str(self.params[self.idx]),self.res[self.params[self.idx]])))
+            print("ratio but", self.res[self.params[self.idx]])
             self.idx+=1
             self.but=0
             self.cpt=0
