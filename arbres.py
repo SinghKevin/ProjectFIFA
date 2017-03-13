@@ -5,6 +5,8 @@ from arbres_utils import build_apprentissage,affiche_arbre,DTreeStrategy,apprend
 from sklearn.tree 	import export_graphviz
 from sklearn.tree import DecisionTreeClassifier
 import os.path
+from strategy import *
+
 ## Strategie aleatoire
 class FonceStrategy(Strategy):
     def __init__(self):
@@ -25,8 +27,8 @@ class StaticStrategy(Strategy):
 
 team1 = SoccerTeam("team1")
 strat_j1 = KeyboardStrategy()
-strat_j1.add('a',FonceStrategy())
-strat_j1.add('z',StaticStrategy())
+strat_j1.add('a',AttaqueStrategy())
+strat_j1.add('z',GardienStrategy())
 team1.add("Jexp 1",strat_j1)
 team1.add("Jexp 2",StaticStrategy())
 team2 = SoccerTeam("team2")
@@ -38,9 +40,9 @@ team2.add("rien 2", StaticStrategy())
 def my_get_features(state,idt,idp):
     """ extraction du vecteur de features d'un etat, ici distance a la balle, distance au but, distance balle but """
     p_pos= state.player_state(idt,idp).position
-    f1 = p_pos.distance(state.ball.position)
-    f2= p_pos.distance( Vector2D((2-idt)*settings.GAME_WIDTH,settings.GAME_HEIGHT/2.))
-    f3 = state.ball.position.distance(Vector2D((2-idt)*settings.GAME_WIDTH,settings.GAME_HEIGHT/2.))
+    f1 = p_pos.distance(state.ball.position) #distance a la balle
+    f2 = p_pos.distance( Vector2D((2-idt)*settings.GAME_WIDTH,settings.GAME_HEIGHT/2.)) #distance au but
+    f3 = state.ball.position.distance(Vector2D((2-idt)*settings.GAME_WIDTH,settings.GAME_HEIGHT/2.)) #distance balle but
     return [f1,f2,f3]
 
 
@@ -67,7 +69,8 @@ def jouer_arbre(dt):
     ####
     # Utilisation de l'arbre
     ###
-    dic = {"Fonce":FonceStrategy(),"Static":StaticStrategy()}
+    #dic = {"Fonce":FonceStrategy(),"Static":StaticStrategy()}
+    dic = {"Attaque":AttaqueStrategy(),"Gardien":GardienStrategy()}
     treeStrat1 = DTreeStrategy(dt,dic,my_get_features)
     treeStrat2 = DTreeStrategy(dt,dic,my_get_features)
     team3 = SoccerTeam("Arbre Team")

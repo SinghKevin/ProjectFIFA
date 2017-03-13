@@ -1,19 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Feb 17 10:17:53 2017
-
-@author: singh
-"""
-
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Jan 30 18:54:40 2017
-
-@author: 3202238
-"""
-
-
-
 from soccersimulator import Vector2D, SoccerState, SoccerAction
 from soccersimulator import settings
 from soccersimulator.strategies  import Strategy
@@ -153,8 +137,8 @@ class Action(object) :
             
     
     def gardien_haut(self):
-        if (self.state.distance_but_ball()>50):
-            if self.state.ball_positionY()>50 and (self.state.distance_but_ball()<65):                    
+        if (self.state.distance_but_ball()>70):
+            if self.state.ball_positionY()>50 and (self.state.distance_but_ball()<60):                    
                 return self.aller(self.state.ball_trajectoire_gardien())
             else :
                 return self.aller(self.state.placement_gardien_haut())
@@ -163,8 +147,8 @@ class Action(object) :
             return self.passe()            
 
     def gardien_bas(self):
-        if (self.state.distance_but_ball()>50):
-            if self.state.ball_positionY()<40 and (self.state.distance_but_ball()<65):                    
+        if (self.state.distance_but_ball()>70):
+            if self.state.ball_positionY()<40 and (self.state.distance_but_ball()<60):                    
                 return self.aller(self.state.ball_trajectoire_gardien())
             else :
                 return self.aller(self.state.placement_gardien_bas())
@@ -174,8 +158,8 @@ class Action(object) :
 
 
     def gardien_milieu(self):
-        if (self.state.distance_but_ball()>50):
-            if self.state.ball_positionY()>40 and self.state.ball_positionY()<50 and (self.state.distance_but_ball()<65):                   
+        if (self.state.distance_but_ball()>70):
+            if self.state.ball_positionY()>40 and self.state.ball_positionY()<50 and (self.state.distance_but_ball()<60):                   
                 return self.aller(self.state.ball_trajectoire_gardien())
             else :
                 return self.aller(self.state.placement_gardien_milieu())
@@ -200,6 +184,15 @@ class Action(object) :
         else:
             return self.aller(self.state.ball_position())
             
+            
+    def dribbler_2(self):
+        return self.aller(self.state.ball_position())+ self.mini_shoot(self.state.position_but_adv()) 
+        
+    def shooteur_2(self):
+         if(self.state.distance_but_ball_att()<40):
+            return self.shoot(self.state.position_but_adv())
+         return self.aller_balle()+self.dribbler_2()
+        
     def attaque_2vs2(self):
         if self.state.position_dribble():
             if not self.state.zone_tir():
@@ -228,43 +221,4 @@ class Action(object) :
              return self.shoot_passe(self.state.pos_joueur_plus_proche())
          else :
              return self.aller(self.state.ball_position())
-
-#    def defenseur_haut_1vs1(self):
-#        if (self.state.distance_but_ball()<75):
-#            if self.state.ball_positionY()>50 and (self.state.distance_but_ball()<75):                    
-#                return self.aller(self.state.ball_trajectoire_gardien())
-#            else :
-#                return self.aller(self.state.placement_defenseur_haut())
-#               
-#        else:
-#            return self.dribbler()            
-#
-#    def defenseur_bas_1vs1(self):
-#        if (self.state.distance_but_ball()<75):
-#            if self.state.ball_positionY()<40 and (self.state.distance_but_ball()<75):                    
-#                return self.aller(self.state.ball_trajectoire_gardien())
-#            else :
-#                return self.aller(self.state.placement_defenseur_bas())
-#               
-#        else:
-#            return self.dribbler()   
-#
-#
-#    def defenseur_milieu_1vs1(self):
-#        if (self.state.distance_but_ball()>50):
-#            if self.state.ball_positionY()>40 and self.state.ball_positionY()<50 and (self.state.distance_but_ball()<50):                   
-#                return self.aller(self.state.ball_trajectoire_gardien())
-#            else :
-#                return self.aller(self.state.placement_defenseur_milieu())
-#               
-#        else:
-#            return self.dribbler()                  
-#
-#    def defenseur_1vs1(self):
-#        if self.state.ball_positionY()>50:
-#            return self.defenseur_haut_1vs1()
-#        elif self.state.ball_positionY()<40:
-#            return self.defenseur_bas_1vs1()
-#        else:
-#            return self.defenseur_milieu_1vs1()
         
