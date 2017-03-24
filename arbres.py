@@ -29,8 +29,10 @@ team1 = SoccerTeam("team1")
 strat_j1 = KeyboardStrategy()
 strat_j1.add('a',AttaqueStrategy())
 strat_j1.add('z',GardienStrategy())
+
 team1.add("Jexp 1",strat_j1)
 team1.add("Jexp 2",StaticStrategy())
+
 team2 = SoccerTeam("team2")
 team2.add("rien 1", StaticStrategy())
 team2.add("rien 2", StaticStrategy())

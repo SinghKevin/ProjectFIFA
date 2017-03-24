@@ -16,12 +16,12 @@ class Position(object):
     def my_position(self):
         return self.state.player_state(self.key[0],self.key[1]).position
     def get_coequipier(self):
-        return sorted([ (self.state.player_state(idt,idp).position.distance(self.my_position()),self.state.player_state(idt,idp).position)\
-                for idt,idp in self.state.players if idt == self.id_team and  idp != self.id_player])
+        return list(reversed ([ (self.state.player_state(idt,idp).position.distance(self.my_position()),self.state.player_state(idt,idp).position)\
+                for idt,idp in self.state.players if idt == self.id_team and  idp != self.id_player]))
     
     def get_ennemi(self):
-        return sorted([ (self.states[(idt,idp)].position.distance(self.my_position()),self.states[(idt,idp)].position)\
-                for idt,idp in self.states.keys() if idt != self.id_team])      
+        return list( reversed([ (self.states[(idt,idp)].position.distance(self.my_position()),self.states[(idt,idp)].position)\
+                for idt,idp in self.states.keys() if idt != self.id_team]))      
         
         
     def pos_joueur_plus_proche(self): 
@@ -49,7 +49,7 @@ class Position(object):
         return self.ball_position() + self.ball_vitesse()*11
     
     def ball_trajectoire_gardien(self):
-        return self.ball_position() + self.ball_vitesse()*12         
+        return self.ball_position() + self.ball_vitesse()*50         
         
     def distance_but_ball_att(self):
         return abs(self.position_but_adv().x-self.ball_positionX())
@@ -81,7 +81,7 @@ class Position(object):
         return Vector2D(abs(self.position_mon_but().x-100),15)
     
     def placement_campeur_2(self):
-        return Vector2D(abs(self.position_mon_but().x-90),self.ball_positionY())
+        return Vector2D(abs(self.position_mon_but().x-100),75)
               
     def surface(self):
         if self.key[0]==1:
@@ -97,6 +97,13 @@ class Position(object):
         return Vector2D(abs(self.position_mon_but().x-25),40)
     def placement_defenseur_milieu(self):
         return Vector2D(abs(self.position_mon_but().x-25),45)
+        
+    def placement_milieu_haut(self):
+        return Vector2D(abs(self.position_mon_but().x-37),60)
+
+    def placement_milieu_bas(self):
+        return Vector2D(abs(self.position_mon_but().x-37),30)
+
 #####################################################################################################
         
 class Action(object) :
@@ -134,11 +141,33 @@ class Action(object) :
             return SoccerAction(Vector2D(), (p-self.state.my_position())*0.0225)
         else :
             return self.aller(self.state.ball_position())
+    
+    
+            
+    def milieu_haut(self):
+        if (self.state.distance_but_ball()>80):
+            if self.state.ball_positionY()>50 and (self.state.distance_but_ball()<50):                    
+                return self.aller(self.state.ball_trajectoire_gardien())
+            else :
+                return self.aller(self.state.placement_milieu_haut())
+        else:
+            return self.passe()
+    
+    def milieu_bas(self):
+        if (self.state.distance_but_ball()>80):
+            if self.state.ball_positionY()>50 and (self.state.distance_but_ball()<50):                    
+                return self.aller(self.state.ball_trajectoire_gardien())
+            else :
+                return self.aller(self.state.placement_milieu_bas())
+        else:
+            return self.passe()
+                
+
             
     
     def gardien_haut(self):
         if (self.state.distance_but_ball()>70):
-            if self.state.ball_positionY()>50 and (self.state.distance_but_ball()<60):                    
+            if self.state.ball_positionY()>50 and (self.state.distance_but_ball()<65):                    
                 return self.aller(self.state.ball_trajectoire_gardien())
             else :
                 return self.aller(self.state.placement_gardien_haut())
@@ -148,7 +177,7 @@ class Action(object) :
 
     def gardien_bas(self):
         if (self.state.distance_but_ball()>70):
-            if self.state.ball_positionY()<40 and (self.state.distance_but_ball()<60):                    
+            if self.state.ball_positionY()<40 and (self.state.distance_but_ball()<65):                    
                 return self.aller(self.state.ball_trajectoire_gardien())
             else :
                 return self.aller(self.state.placement_gardien_bas())
@@ -159,7 +188,7 @@ class Action(object) :
 
     def gardien_milieu(self):
         if (self.state.distance_but_ball()>70):
-            if self.state.ball_positionY()>40 and self.state.ball_positionY()<50 and (self.state.distance_but_ball()<60):                   
+            if self.state.ball_positionY()>40 and self.state.ball_positionY()<50 and (self.state.distance_but_ball()<65):                   
                 return self.aller(self.state.ball_trajectoire_gardien())
             else :
                 return self.aller(self.state.placement_gardien_milieu())
@@ -220,5 +249,5 @@ class Action(object) :
          if self.state.zone_tir():
              return self.shoot_passe(self.state.pos_joueur_plus_proche())
          else :
-             return self.aller(self.state.ball_position())
-        
+              return self.aller(self.state.ball_position())
+              
