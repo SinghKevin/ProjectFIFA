@@ -80,19 +80,22 @@ team2 = SoccerTeam(name="team2",login="etu2")
 
 
 
-#team1.add("Campeur", GardienStrategy())
+team1.add("BG", MilieuStrategy())
 #team1.add("Mertesacker",RandomStrategy()) #Strategie qui ne fait rien
 team1.add("Alexis",CampeurStrategy_1())
-team1.add("Alexis",CampeurStrategy())
+#team1.add("Alexis",CampeurStrategy())
+
 #team1 .add("Mertesacker",AttaqueStrategy()) #Strategie qui ne fait rien
 team1.add("Campeur", GardienStrategy())  
-team1.add("Campeur", Pos_Strategy())
+team1.add("Samy-zer", CampeurStrategy())
 #
-team2.add("Pique",GardienStrategy())   #Strategie aleatoire
-team2.add("Neymar", CampeurStrategy())
+team2.add("Pique",CampeurStrategy_1())   #Strategie aleatoire
+#team2.add("Neymar", CampeurStrategy())
+team2.add("Campeur", GardienStrategy()) 
+#team2.add("Campeur", Pos_Strategy())
 #team2.add("Bakambu", Milieu_bas_Strategy())
-#team2.add("Pique",GardienStrategy())   #Strategie aleatoire
-#team2.add("Neymar",AttaqueStrategy())
+team2.add("Pique",MilieuStrategy())   #Strategie aleatoire
+team2.add("Neymar",CampeurStrategy())
 #Creation d'une partie
 simu = Simulation(team1,team2)
 #Jouer et afficher la partie

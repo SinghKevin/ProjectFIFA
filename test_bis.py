@@ -46,10 +46,13 @@ class Position(object):
         return (self.ball_position()-self.my_position()).norm <= settings.PLAYER_RADIUS + settings.BALL_RADIUS
     
     def ball_trajectoire(self):
-        return self.ball_position() + self.ball_vitesse()*11
+        return (self.ball_position() + self.ball_vitesse()*11)
     
     def ball_trajectoire_gardien(self):
-        return self.ball_position() + self.ball_vitesse()*50         
+        return (self.ball_position() + self.ball_vitesse()*20)   
+    
+    def ball_trajectoire_milieu(self):
+        return (self.ball_position() + self.ball_vitesse()*27)  
         
     def distance_but_ball_att(self):
         return abs(self.position_but_adv().x-self.ball_positionX())
@@ -71,11 +74,11 @@ class Position(object):
     
 
     def placement_gardien_haut(self):
-        return Vector2D(abs(self.position_mon_but().x-10),50)
+        return Vector2D(abs(self.position_mon_but().x-30),50)
     def placement_gardien_bas(self):
-        return Vector2D(abs(self.position_mon_but().x-10),40)
+        return Vector2D(abs(self.position_mon_but().x-30),40)
     def placement_gardien_milieu(self):
-        return Vector2D(abs(self.position_mon_but().x-10),45)
+        return Vector2D(abs(self.position_mon_but().x-30),45)
         
     def placement_campeur(self):
         return Vector2D(abs(self.position_mon_but().x-100),15)
@@ -91,18 +94,13 @@ class Position(object):
     def position_dribble(self):
         return abs(self.position_mon_but().x-self.ball_positionX()) >= 65
     
-    def placement_defenseur_haut(self):
-        return Vector2D(abs(self.position_mon_but().x-25),50)
-    def placement_defenseur_bas(self):
-        return Vector2D(abs(self.position_mon_but().x-25),40)
-    def placement_defenseur_milieu(self):
-        return Vector2D(abs(self.position_mon_but().x-25),45)
-        
     def placement_milieu_haut(self):
-        return Vector2D(abs(self.position_mon_but().x-37),60)
-
+        return Vector2D(abs(self.position_mon_but().x-50),50)
     def placement_milieu_bas(self):
-        return Vector2D(abs(self.position_mon_but().x-37),30)
+        return Vector2D(abs(self.position_mon_but().x-50),40)
+    def placement_milieu_milieu(self):
+        return Vector2D(abs(self.position_mon_but().x-50),45)
+        
 
 #####################################################################################################
         
@@ -161,7 +159,24 @@ class Action(object) :
                 return self.aller(self.state.placement_milieu_bas())
         else:
             return self.passe()
-                
+    
+    def milieu_milieu(self):
+        if (self.state.distance_but_ball()>80):
+            if self.state.ball_positionY()>50 and (self.state.distance_but_ball()<50):                    
+                return self.aller(self.state.ball_trajectoire_gardien())
+            else :
+                return self.aller(self.state.placement_milieu_bas())
+        else:
+            return self.passe()
+    
+    def milieu(self):
+        if self.state.ball_positionY()>50:
+            return self.milieu_haut()
+        elif self.state.ball_positionY()<40:
+            return self.milieu_bas()
+        else:
+            return self.milieu_milieu()
+
 
             
     
@@ -173,7 +188,9 @@ class Action(object) :
                 return self.aller(self.state.placement_gardien_haut())
                
         else:
-            return self.passe()            
+            return self.passe()    
+            
+    
 
     def gardien_bas(self):
         if (self.state.distance_but_ball()>70):

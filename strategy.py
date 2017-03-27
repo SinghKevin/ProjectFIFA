@@ -83,7 +83,7 @@ class Pos_Strategy(Strategy):
     def compute_strategy(self, state, id_team, id_player):
         m_pos = test_bis.Position(state, id_team, id_player)
         m_action= test_bis.Action(m_pos)
-        return m_action.aller(Vector2D(150,90))
+        return m_action.aller(Vector2D(75,65))
         
 class DribbleStrategy(Strategy):
     def __ini__(self):
@@ -109,18 +109,11 @@ class ShooteurStrategy(Strategy):
         m_action= test_bis.Action(m_pos)
         return m_action.dribbler_2() + m_action.shoot(m_pos.position_but_adv())
 
-class Milieu_haut_Strategy(Strategy):
+class MilieuStrategy(Strategy):
     def __init__(self):
         Strategy.__init__(self,"Passeur")
     def compute_strategy(self,state,id_team, id_player):
         m_pos = test_bis.Position(state,id_team,id_player)
         m_action = test_bis.Action(m_pos)
-        return m_action.milieu_haut()
+        return m_action.milieu()
 
-class Milieu_bas_Strategy(Strategy):
-    def __init__(self):
-        Strategy.__init__(self,"Passeur")
-    def compute_strategy(self,state,id_team, id_player):
-        m_pos = test_bis.Position(state,id_team,id_player)
-        m_action = test_bis.Action(m_pos)
-        return m_action.milieu_bas()

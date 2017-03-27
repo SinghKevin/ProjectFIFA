@@ -26,6 +26,8 @@ class StaticStrategy(Strategy):
 #######
 
 team1 = SoccerTeam("team1")
+team2 = SoccerTeam("team2")
+
 strat_j1 = KeyboardStrategy()
 strat_j1.add('a',AttaqueStrategy())
 strat_j1.add('z',GardienStrategy())
@@ -33,8 +35,11 @@ strat_j1.add('z',GardienStrategy())
 team1.add("Jexp 1",strat_j1)
 team1.add("Jexp 2",StaticStrategy())
 
-team2 = SoccerTeam("team2")
-team2.add("rien 1", StaticStrategy())
+strat_j2 = KeyboardStrategy()
+strat_j2.add('o',AttaqueStrategy())
+strat_j2.add('m',GardienStrategy())
+
+team2.add("rien 1", strat_j2)
 team2.add("rien 2", StaticStrategy())
 
 
