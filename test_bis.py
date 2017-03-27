@@ -5,7 +5,9 @@ from soccersimulator.mdpsoccer import SoccerTeam, Simulation
 from soccersimulator.gui import SimuGUI,show_state,show_simu
 import math
 
-#Toolbox
+#==============================================================================#
+#                               #Toolbox                                       #
+#==============================================================================#
 class Position(object):
     def __init__(self, state,id_team,id_player):
         self.state = state
@@ -46,7 +48,7 @@ class Position(object):
         return (self.ball_position()-self.my_position()).norm <= settings.PLAYER_RADIUS + settings.BALL_RADIUS
     
     def ball_trajectoire(self):
-        return (self.ball_position() + self.ball_vitesse()*11)
+        return (self.ball_position() + self.ball_vitesse()*20)
     
     def ball_trajectoire_gardien(self):
         return (self.ball_position() + self.ball_vitesse()*20)   
@@ -102,8 +104,11 @@ class Position(object):
         return Vector2D(abs(self.position_mon_but().x-50),45)
         
 
-#####################################################################################################
-        
+
+#==============================================================================#
+#                               # Action                                       #
+#==============================================================================#
+
 class Action(object) :
     def __init__(self, state):
         self.state = state
@@ -231,13 +236,6 @@ class Action(object) :
             return self.aller(self.state.ball_position())
             
             
-    def dribbler_2(self):
-        return self.aller(self.state.ball_position())+ self.mini_shoot(self.state.position_but_adv()) 
-        
-    def shooteur_2(self):
-         if(self.state.distance_but_ball_att()<40):
-            return self.shoot(self.state.position_but_adv())
-         return self.aller_balle()+self.dribbler_2()
         
     def attaque_2vs2(self):
         if self.state.position_dribble():
@@ -250,6 +248,15 @@ class Action(object) :
         else :
             return self.aller(self.state.placement_campeur())
             
+
+            
+    def passe(self):
+         if self.state.zone_tir():
+             return self.shoot_passe(self.state.pos_joueur_plus_proche())
+         else :
+              return self.aller(self.state.ball_position())
+             
+
     def attaque_2vs2_bis(self):
         if self.state.position_dribble():
             if not self.state.zone_tir():
@@ -260,11 +267,12 @@ class Action(object) :
                 return self.shoot(self.state.position_but_adv())
         else :
             return self.aller(self.state.placement_campeur_2())
-        
-            
-    def passe(self):
-         if self.state.zone_tir():
-             return self.shoot_passe(self.state.pos_joueur_plus_proche())
-         else :
-              return self.aller(self.state.ball_position())
-              
+#        
+#    def dribbler_2(self):
+#        return self.aller(self.state.ball_position())+ self.mini_shoot(self.state.position_but_adv()) 
+#        
+#    def shooteur_2(self):
+#         if(self.state.distance_but_ball_att()<40):
+#            return self.shoot(self.state.position_but_adv())
+#         return self.aller_balle()+self.dribbler_2()
+#           
