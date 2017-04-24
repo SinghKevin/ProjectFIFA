@@ -126,7 +126,7 @@ class Action(object) :
         return SoccerAction((p-self.state.my_position()), Vector2D())    
     
     def aller_balle(self):
-        return self.aller(self.state.ball_trajectoire())
+        return self.aller(self.state.ball_position())
         
     def shoot(self, p):
         if self.state.zone_tir():

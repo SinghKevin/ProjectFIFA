@@ -30,7 +30,7 @@ class DemoStrategy(Strategy):
         return SoccerAction()
 
 
-class Golfeur1(Strategy):
+class Slalom(Strategy):
     def __init__(self,name="Golfeur"):
         Strategy.__init__(self,name)
     def compute_strategy(self,state,id_team, id_player):
@@ -41,17 +41,34 @@ class Golfeur1(Strategy):
             return m_action.aller_balle()
         elif len(zones)==0:
           print('-------------------------------------------------------------------------------------')
-          return SoccerAction(Vector2D(),0.08*(m_pos.position_but_adv()-m_pos.my_position()))
+          return SoccerAction(Vector2D(),0.1011*(m_pos.position_but_adv()-m_pos.my_position()))
         else:
             zone=zones[0]
             if zone.dedans(state.ball.position):
                 return m_action.aller_balle()
         return SoccerAction(Vector2D(),0.08*((zone.position+zone.l/2.)-m_pos.my_position()))
-        
+
+class Golfeur(Strategy):
+    def __init__(self,name="Golfeur"):
+        Strategy.__init__(self,name)
+    def compute_strategy(self,state,id_team, id_player):
+        m_pos = test_bis.Position(state,id_team,id_player)
+        m_action = test_bis.Action(m_pos)
+        zones=state.get_zones(id_team)
+        if not m_pos.zone_tir():
+            return m_action.aller_balle()
+        elif len(zones)==0:
+          print('-------------------------------------------------------------------------------------')
+          return SoccerAction(Vector2D(),0.025*(m_pos.position_but_adv()-m_pos.my_position()))
+        else:
+            zone=zones[0]
+            if zone.dedans(state.ball.position):
+                return m_action.aller_balle()
+        return SoccerAction(Vector2D(),0.025*((zone.position+zone.l/2.)-m_pos.my_position()))      
 team1 = SoccerTeam()
 team2 = SoccerTeam()
-team1.add("John",Golfeur1())
-team2.add("John",DemoStrategy())
+team1.add("John",Slalom())
+team2.add("John",Slalom())
 simu = Parcours1(team1=team1,vitesse=GOLF)
 show_simu(simu)
 simu = Parcours2(team1=team1,vitesse=GOLF)
