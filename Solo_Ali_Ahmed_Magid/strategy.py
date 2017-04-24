@@ -25,7 +25,8 @@ class FonceurStrategy(Strategy):
     def compute_strategy(self,state,id_team,id_player):        
         m_pos = test_bis.Position(state, id_team, id_player)
         m_action= test_bis.Action(m_pos)
-        return m_action.aller(m_pos.ball_position()) + m_action.shoot(Vector2D(150,150))       
+        return m_action.aller(m_pos.ball_position())
+        
 class DefenseStrategy(Strategy):
     def __init__(self):
         Strategy.__init__(self,"Random")
@@ -48,7 +49,7 @@ class AttaqueStrategy(Strategy):
     def compute_strategy(self, state, id_team, id_player):
         m_pos = test_bis.Position(state, id_team, id_player)
         m_action= test_bis.Action(m_pos)
-        return m_action.dribbler_golf()
+        return m_action.dribbler()
 
 
 class CampeurStrategy(Strategy):
@@ -116,32 +117,3 @@ class MilieuStrategy(Strategy):
         m_action = test_bis.Action(m_pos)
         return m_action.milieu()
 
-
-
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
