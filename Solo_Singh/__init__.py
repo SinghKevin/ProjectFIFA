@@ -15,6 +15,6 @@ def get_slalom_team2():
     return team2
     
 def get_golf_team1():
-    team1.add("John",Golfeur_slalom())
+    team1.add("John",Golfeur_golf())
     return team1
 

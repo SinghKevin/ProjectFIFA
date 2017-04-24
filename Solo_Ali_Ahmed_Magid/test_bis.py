@@ -102,10 +102,7 @@ class Position(object):
         return Vector2D(abs(self.position_mon_but().x-50),40)
     def placement_milieu_milieu(self):
         return Vector2D(abs(self.position_mon_but().x-50),45)
-    
-    def zone(self):
-        L= self.state.get_zones(id_team)
-        return L[0]
+        
 
 
 #==============================================================================#
@@ -121,12 +118,11 @@ class Action(object) :
 #        self.but_adv = Vector2D(settings.GAME_WIDTH, settings.GAME_HEIGHT/2)
 #        self.Position = Position
  
-
     def aller(self, p):
         return SoccerAction((p-self.state.my_position()), Vector2D())    
     
     def aller_balle(self):
-        return self.aller(self.state.ball_position())
+        return self.aller(self.state.ball_trajectoire())
         
     def shoot(self, p):
         if self.state.zone_tir():
@@ -279,11 +275,4 @@ class Action(object) :
 #         if(self.state.distance_but_ball_att()<40):
 #            return self.shoot(self.state.position_but_adv())
 #         return self.aller_balle()+self.dribbler_2()
-#       
-    def dribbler_golf(self):
-        if (self.state.zone_tir()):
-            return self.shoot(self.state.zone())
-        elif self.state.zone_tir():       
-            return self.aller(self.state.ball_position())+ self.mini_shoot(self.state.zone()) 
-        else:
-            return self.aller(self.state.ball_position())
+#           
