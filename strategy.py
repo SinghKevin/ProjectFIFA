@@ -13,11 +13,6 @@ class RandomStrategy(Strategy):
         return SoccerAction(Vector2D.create_random(-1,1),Vector2D.create_random(-1,1))
         
 
-#def fonceur(m_action):
-#     return m_action.aller(m_pos.ball_position()) + m_action.shoot(m_pos.position_but_adv())
-     
-     ## Strategie d'attaque
-
         
 class FonceurStrategy(Strategy):
     def __init__(self):
@@ -48,7 +43,7 @@ class AttaqueStrategy(Strategy):
     def compute_strategy(self, state, id_team, id_player):
         m_pos = test_bis.Position(state, id_team, id_player)
         m_action= test_bis.Action(m_pos)
-        return m_action.dribbler_golf()
+        return m_action.dribbler()
 
 
 class CampeurStrategy(Strategy):

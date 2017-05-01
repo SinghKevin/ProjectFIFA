@@ -271,19 +271,3 @@ class Action(object) :
                 return self.shoot(self.state.position_but_adv())
         else :
             return self.aller(self.state.placement_campeur_2())
-#        
-#    def dribbler_2(self):
-#        return self.aller(self.state.ball_position())+ self.mini_shoot(self.state.position_but_adv()) 
-#        
-#    def shooteur_2(self):
-#         if(self.state.distance_but_ball_att()<40):
-#            return self.shoot(self.state.position_but_adv())
-#         return self.aller_balle()+self.dribbler_2()
-#       
-    def dribbler_golf(self):
-        if (self.state.zone_tir()):
-            return self.shoot(self.state.zone())
-        elif self.state.zone_tir():       
-            return self.aller(self.state.ball_position())+ self.mini_shoot(self.state.zone()) 
-        else:
-            return self.aller(self.state.ball_position())
