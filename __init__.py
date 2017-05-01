@@ -14,14 +14,14 @@ from strategy import *
 def get_team(i):
     s= SoccerTeam(name = "TeamFUT")
     if i == 1:
-        s.add("Iniesta", AttaqueStrategy() )
+        s.add("Iniesta", AttaqueStrategy())
     if i == 2:
-        s.add("Yaya",GardienStrategy()  )
-        s.add("Zlatan",CampeurStrategy() )
+        s.add("Yaya",GardienStrategy())
+        s.add("Zlatan",CampeurStrategy())
     if i ==4 :
-        s.add("Aguero",CampeurStrategy() )
-        s.add("Suarez ",CampeurStrategy_1() )
-        s.add("Puyol ", Pos_Strategy() )
-        s.add("T. Silva", GardienStrategy())
+	s.add("BG", MilieuStrategy())
+	s.add("Alexis",CampeurStrategy_1())
+	s.add("Campeur", GardienStrategy())  
+	s.add("Samy-zer", CampeurStrategy())
     
     return s
